@@ -7,6 +7,19 @@ var KongService = require("../services/KongService");
 var ProxyHooks = require("../services/KongProxyHooks");
 var _ = require("lodash");
 var Utils = require('../services/Utils');
+var fs = require('fs');
+var path = require('path');
+var https = require("https");
+
+var certFile = process.env.SSL_CLIENT_CERT;
+var keyFile = process.env.SSL_CLIENT_KEY;
+
+if (!process.env.SSL_CLIENT_CERT) certFile = '/app/ssl/client.crt';
+if (!process.env.SSL_CLIENT_KEY) keyFile = '/app/ssl/client.key';
+
+https.globalAgent.options['cert'] = fs.readFileSync(certFile);
+https.globalAgent.options['key'] = fs.readFileSync(keyFile);
+
 
 
 function getEntityFromRequest(req) {
