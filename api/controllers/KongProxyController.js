@@ -14,11 +14,11 @@ var https = require("https");
 var certFile = process.env.SSL_CLIENT_CERT;
 var keyFile = process.env.SSL_CLIENT_KEY;
 
-if (!process.env.SSL_CLIENT_CERT) certFile = '/app/ssl/client.crt';
-if (!process.env.SSL_CLIENT_KEY) keyFile = '/app/ssl/client.key';
+if (certFile && keyFile) {
+  https.globalAgent.options['cert'] = fs.readFileSync(certFile);
+  https.globalAgent.options['key'] = fs.readFileSync(keyFile);
+}
 
-https.globalAgent.options['cert'] = fs.readFileSync(certFile);
-https.globalAgent.options['key'] = fs.readFileSync(keyFile);
 
 
 
